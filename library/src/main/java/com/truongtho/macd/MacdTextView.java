@@ -8,39 +8,37 @@ import android.widget.TextView;
 
 /** Created with IntelliJ IDEA. User: tho Date: 9/17/13 Time: 11:18 AM */
 public class MacdTextView extends TextView {
+
   private OnElementClickListener onElementClickListener;
   private MacdTextParser parser;
 
   //<editor-fold desc="Constructors">
   public MacdTextView(Context context) {
     super(context);
-    init();
   }
 
   public MacdTextView(Context context, AttributeSet attrs) {
     super(context, attrs);
-    init();
   }
 
   public MacdTextView(Context context, AttributeSet attrs, int defStyle) {
     super(context, attrs, defStyle);
-    init();
   }
 
   //</editor-fold>
 
-  @Override protected void onFinishInflate() {
-    init();
-    super.onFinishInflate();
+  protected void init() {
+    setMovementMethod(LinkMovementMethod.getInstance());
+    setParser(new MacdTextParser());
   }
 
-  private void init() {
+  protected void setParser(MacdTextParser parser) {
+    this.parser = parser;
   }
 
   @Override public void setText(CharSequence text, BufferType type) {
     if (parser == null) {
-      setMovementMethod(LinkMovementMethod.getInstance());
-      parser = new MacdTextParser();
+      init();
     }
     text = parser.load(text.toString().trim()).parse();
     super.setText(text, type);

@@ -38,7 +38,7 @@ public class MacdTextParser {
     };
   }
 
-  private void register(MacdTag processor) {
+  public void register(MacdTag processor) {
     if (processor == null) {
       throw new IllegalArgumentException("processor cannot be null");
     }
@@ -46,6 +46,7 @@ public class MacdTextParser {
     if (tags == null) {
       tags = new LinkedList<MacdTag>();
     }
+
     tags.add(processor);
   }
 
