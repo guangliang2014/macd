@@ -12,12 +12,17 @@
       android:text="**Hello** *world* **from** {green|Macd}. Click [here](http://truongtho.github.io) to know more about me."
       />
 
+  <View
+      android:layout_width="fill_parent"
+      android:layout_height="2dp"
+      android:background="#ffffff"/>
 
-  <TextView
-      android:id="@+id/test"
+  <com.truongtho.macd.sample.OtherMacdTextView
+      android:id="@+id/other_macd_text_view"
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
-      android:text="@null"
+      android:text="It's just a :logo"
       />
+
 </LinearLayout>
 
