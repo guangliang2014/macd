@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">MacD sample</string>
+  <string name="sample1">**Hello** *world* **from** {green|Macd}. Click [here](http://truongtho.github.io) to know more about me.</string>
+  <string name="sample2">It\'s just a :logo</string>
+  <string name="string1"><u>Built-in text processors</u></string>
+  <string name="string2"><u>Custom text processor</u></string>
 </resources>
