@@ -10,7 +10,10 @@ public abstract class ClickableTag extends SpanTag {
       @Override public void onClick(View view) {
         if (view instanceof MacdTextView) {
           MacdTextView.OnElementClickListener onElementClickListener = ((MacdTextView) view).getOnElementClickListener();
-          onElementClickListener.onClick(view, textElement, key(), matchStrings);
+
+          if (onElementClickListener != null) {
+            onElementClickListener.onClick(view, textElement, key(), matchStrings);
+          }
         }
       }
     };
