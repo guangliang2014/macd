@@ -2,14 +2,15 @@ package com.truongtho.macd;
 
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import java.util.HashMap;
+import com.truongtho.macd.cache.HashMapCache;
+import com.truongtho.macd.cache.KeyValueCache;
+import com.truongtho.macd.cache.LruCacheMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /** Created with IntelliJ IDEA. User: tho Date: 9/17/13 Time: 11:30 AM */
 public class MacdTextParser {
-  private static Map<String, Spanned> cachedTexts = new HashMap<String, Spanned>();
+  private KeyValueCache<String, Spanned> cache;
   private String original;
   private SpannableStringBuilder richText;
   private List<MacdTag> tags;
@@ -22,12 +23,32 @@ public class MacdTextParser {
 
   public MacdTextParser(boolean useBuiltInTags) {
     this.useBuiltInTags = useBuiltInTags;
+    this.cache = defaultCache();
 
     if (useBuiltInTags) {
       MacdTag[] builtInTags = getBuildInProcessors();
       for (MacdTag processor : builtInTags) {
         register(processor);
       }
+    }
+  }
+
+  private KeyValueCache<String, Spanned> defaultCache() {
+    KeyValueCache<String, Spanned> cacheInstance;
+    if (hasLruCacheOnClassPath()) {
+      cacheInstance = LruCacheInstantiator.instantiate();
+    } else {
+      cacheInstance = new HashMapCache<String, Spanned>();
+    }
+    return cacheInstance;
+  }
+
+  private boolean hasLruCacheOnClassPath() {
+    try {
+      Class.forName("android.util.LruCache");
+      return true;
+    } catch (ClassNotFoundException ex) {
+      return false;
     }
   }
   //</editor-fold>
@@ -70,7 +91,7 @@ public class MacdTextParser {
     }
 
     String cachedKey = getCachedText();
-    Spanned cachedText = cachedTexts.get(cachedKey);
+    Spanned cachedText = cache.get(cachedKey);
 
     if (cachedText != null) {
       return cachedText;
@@ -80,7 +101,7 @@ public class MacdTextParser {
       richText = processor.process(richText);
     }
 
-    cachedTexts.put(cachedKey, richText);
+    cache.put(cachedKey, richText);
     return richText;
   }
 
@@ -103,5 +124,25 @@ public class MacdTextParser {
 
   public boolean isUseBuiltInTags() {
     return useBuiltInTags;
+  }
+
+  public static MacdTextParser getInstance() {
+    if (sInstance == null) {
+      sInstance = new MacdTextParser();
+    }
+
+    return sInstance;
+  }
+
+  private static MacdTextParser sInstance;
+
+  /**
+   * Indirection for LruCache class to prevent VerifyErrors on Android 2.0 and earlier when the
+   * dependency is not present.
+   */
+  private static class LruCacheInstantiator {
+    static KeyValueCache<String, Spanned> instantiate() {
+      return new LruCacheMap<String, Spanned>();
+    }
   }
 }

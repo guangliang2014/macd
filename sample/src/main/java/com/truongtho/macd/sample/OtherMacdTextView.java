@@ -26,7 +26,7 @@ public class OtherMacdTextView extends MacdTextView {
   }
 
   @Override protected void init() {
-    MacdTextParser parser = new MacdTextParser(true);
+    MacdTextParser parser = new MacdTextParser();
     parser.register(new LogoTag());
     setParser(parser);
   }
