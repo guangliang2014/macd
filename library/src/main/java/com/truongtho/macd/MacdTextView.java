@@ -28,8 +28,8 @@ public class MacdTextView extends TextView {
   //</editor-fold>
 
   protected void init() {
+    setParser(MacdTextParser.getInstance());
     setMovementMethod(LinkMovementMethod.getInstance());
-    setParser(new MacdTextParser());
   }
 
   protected void setParser(MacdTextParser parser) {
