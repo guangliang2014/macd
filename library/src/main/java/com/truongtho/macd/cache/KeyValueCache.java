@@ -9,5 +9,6 @@ package com.truongtho.macd.cache;
  */
 public interface KeyValueCache<K, V> {
   V get(K key);
+
   V put(K key, V value);
 }

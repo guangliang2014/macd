@@ -3,5 +3,5 @@
     package="com.truongtho.macd"
     android:versionCode="1"
     android:versionName="1.0">
-  <application />
+  <application/>
 </manifest>
