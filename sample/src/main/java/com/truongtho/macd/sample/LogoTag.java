@@ -16,6 +16,7 @@ public class LogoTag implements MacdTag {
 
   @Override public SpannableStringBuilder process(SpannableStringBuilder source) {
     int pos = source.length();
+
     String nonSpanSource = source.toString();
     ImageSpan logoSpan = new ImageSpan(Application.context(), R.drawable.ic_launcher);
 
